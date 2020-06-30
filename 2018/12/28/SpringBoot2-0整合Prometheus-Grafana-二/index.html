@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>SpringBoot2.0整合Prometheus Grafana(二) | JAVA码农随笔</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="SpringBoot,Prometheus,Grafana">
+    <meta name="description" content="前言在前一篇文章中，最后能看到的只是Prometheus自带的一些监控指标，本篇就讲一下如何添加自己的监控信息。 增加配置类package com.example.demo.config;import io.micrometer.core.instrument.MeterRegistry;import org.springframework.boot.actuate.autoconfigure.m">
+<meta name="keywords" content="SpringBoot,Prometheus,Grafana">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot2.0整合Prometheus Grafana(二)">
+<meta property="og:url" content="https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/index.html">
+<meta property="og:site_name" content="JAVA码农随笔">
+<meta property="og:description" content="前言在前一篇文章中，最后能看到的只是Prometheus自带的一些监控指标，本篇就讲一下如何添加自己的监控信息。 增加配置类package com.example.demo.config;import io.micrometer.core.instrument.MeterRegistry;import org.springframework.boot.actuate.autoconfigure.m">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/function.png">
+<meta property="og:updated_time" content="2020-06-30T00:33:58.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot2.0整合Prometheus Grafana(二)">
+<meta name="twitter:description" content="前言在前一篇文章中，最后能看到的只是Prometheus自带的一些监控指标，本篇就讲一下如何添加自己的监控信息。 增加配置类package com.example.demo.config;import io.micrometer.core.instrument.MeterRegistry;import org.springframework.boot.actuate.autoconfigure.m">
+<meta name="twitter:image" content="https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/function.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="JAVA码农随笔" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">wuqiupeng</h5>
+          <a href="mailto:wqp0010@gmail.com" title="wqp0010@gmail.com" class="mail">wqp0010@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/wuqiupeng/" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/2565125543/" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SpringBoot2.0整合Prometheus Grafana(二)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SpringBoot2.0整合Prometheus Grafana(二)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-28T14:37:08.000Z" itemprop="datePublished" class="page-time">
+  2018-12-28
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#增加配置类"><span class="post-toc-number">2.</span> <span class="post-toc-text">增加配置类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Counter"><span class="post-toc-number">3.</span> <span class="post-toc-text">Counter</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#java代码"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">java代码</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#增加监控项"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">增加监控项</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Gauge"><span class="post-toc-number">4.</span> <span class="post-toc-text">Gauge</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Timer"><span class="post-toc-number">5.</span> <span class="post-toc-text">Timer</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#java代码-1"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">java代码</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#增加监控项-1"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">增加监控项</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-SpringBoot2-0整合Prometheus-Grafana-二" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SpringBoot2.0整合Prometheus Grafana(二)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-28 14:37:08" datetime="2018-12-28T14:37:08.000Z" itemprop="datePublished">2018-12-28</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>在前一篇文章中，最后能看到的只是Prometheus自带的一些监控指标，本篇就讲一下如何添加自己的监控信息。</p>
+<h4 id="增加配置类"><a href="#增加配置类" class="headerlink" title="增加配置类"></a>增加配置类</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.micrometer.core.instrument.MeterRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MetricsConfig</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> MeterRegistryCustomizer&lt;MeterRegistry&gt; <span class="title">commonTags</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> r -&gt; &#123;</span><br><span class="line">      r.config().commonTags(<span class="string">"application"</span>, <span class="string">"com.example.demo.config"</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Counter"><a href="#Counter" class="headerlink" title="Counter"></a>Counter</h4><p>Counter是一种只加不减的计数器</p>
+<h5 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h5><p>测试代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestPrometheusController</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> Counter counter = Metrics.counter(<span class="string">"getUserInfoCount"</span>, <span class="string">"user"</span>, <span class="string">"info"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping</span>(value = <span class="string">"/user/info"</span>, method = RequestMethod.GET)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">getInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    counter.increment(<span class="number">1</span>D);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>程序起来后，打开<a><a href="http://localhost:8080/actuator/prometheus" target="_blank" rel="noopener">http://localhost:8080/actuator/prometheus</a></a>可以看到</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># HELP getUserInfoCount_total  </span></span><br><span class="line"><span class="comment"># TYPE getUserInfoCount_total counter</span></span><br><span class="line">getUserInfoCount_total&#123;application=<span class="string">"com.example.demo.config"</span>,user=<span class="string">"info"</span>,&#125; 0.0</span><br></pre></td></tr></table></figure>
+<p>这里就可以看到添加项的名称 类型 数量值等信息。<br>浏览器刷新几次<a><a href="http://localhost:8080/user/info" target="_blank" rel="noopener">http://localhost:8080/user/info</a></a>后可以观察到这个数量的变化</p>
+<h5 id="增加监控项"><a href="#增加监控项" class="headerlink" title="增加监控项"></a>增加监控项</h5><p>此时如果在打开<a><a href="http://localhost:9090" target="_blank" rel="noopener">http://localhost:9090</a></a>页面，则可以看到多了getUserInfoCount_total监控这一项<br>打开<a><a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a></a> grafana页面，新增表盘时监控项选择“getUserInfoCount_total”即可</p>
+<h4 id="Gauge"><a href="#Gauge" class="headerlink" title="Gauge"></a>Gauge</h4><p>Gauge是一个表示单个数值的度量，它可以表示任意地上下移动的数值测量</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 假设用来监控用户缓存数量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">AtomicInteger atomicInteger = Metrics.gauge(<span class="string">"getUserCacheCount"</span>, <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/user/cache/add"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">addCache</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  atomicInteger.addAndGet(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/user/cache/remove"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">removeCache</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  atomicInteger.decrementAndGet();</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动后，反复调用几次<a><a href="http://localhost:8080/user/cache/add" target="_blank" rel="noopener">http://localhost:8080/user/cache/add</a></a>和<a><a href="http://localhost:8080/user/cache/remove" target="_blank" rel="noopener">http://localhost:8080/user/cache/remove</a></a>,然后参照上面的在grafana添加表盘即可</p>
+<h4 id="Timer"><a href="#Timer" class="headerlink" title="Timer"></a>Timer</h4><p>Timer(计时器)同时测量一个特定的代码逻辑块的调用(执行)速度和它的时间分布</p>
+<h5 id="java代码-1"><a href="#java代码-1" class="headerlink" title="java代码"></a>java代码</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Timer timer = Metrics.timer(<span class="string">"getUserInfoList"</span>, <span class="string">"user"</span>, <span class="string">"list"</span>);</span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/user/list"</span>, method = RequestMethod.GET)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">//模拟耗时操作</span></span><br><span class="line">    TimeUnit.MILLISECONDS.sleep(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>) + <span class="number">100</span>);</span><br><span class="line">  &#125;<span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">long</span> duration = end - start;</span><br><span class="line">    timer.record(duration, TimeUnit.MILLISECONDS);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动后，反复调用几次<a><a href="http://localhost:8080/user/list" target="_blank" rel="noopener">http://localhost:8080/user/list</a></a></p>
+<h5 id="增加监控项-1"><a href="#增加监控项-1" class="headerlink" title="增加监控项"></a>增加监控项</h5><p>添加Timer后，主要是增加了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">getUserInfoList_seconds_count&#123;application=<span class="string">"com.example.demo.config"</span>,user=<span class="string">"list"</span>,&#125; 12.0</span><br><span class="line">getUserInfoList_seconds_sum&#123;application=<span class="string">"com.example.demo.config"</span>,user=<span class="string">"list"</span>,&#125; 1.828</span><br></pre></td></tr></table></figure>
+<p>在grafana添加仪表选择需要监控的指标时，需要特别配置。前面都是直接添加了已有项，现在要加一些函数操作<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/function.png" alt="平均延时" title="">
+                </div>
+                <div class="image-caption">平均延时</div>
+            </figure></p>
+<p>这样就是平均延时了<br>吞吐量则是</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rate(getUserInfoList_seconds_count[10s])</span><br></pre></td></tr></table></figure>
+<p>此处填写时会有模糊匹配函数支持，很方便</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="https://www.wqp0010.top">
+            <img src="/img/avatar.jpg" alt="wuqiupeng">
+            wuqiupeng
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Grafana/">Grafana</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Prometheus/">Prometheus</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/&title=《SpringBoot2.0整合Prometheus Grafana(二)》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/&title=《SpringBoot2.0整合Prometheus Grafana(二)》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringBoot2.0整合Prometheus Grafana(二)》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SpringBoot2.x整合druid和mybatis-plus</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/27/SpringBoot2-0整合Prometheus-Grafana/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SpringBoot2.0整合Prometheus Grafana</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "mVF5KCUIVcjCDpIqP4dcKWXw-gzGzoHsz",
+            appKey: "JWj2x2gTJhQ82wlAVNAB3rkI",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>wuqiupeng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/&title=《SpringBoot2.0整合Prometheus Grafana(二)》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/&title=《SpringBoot2.0整合Prometheus Grafana(二)》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringBoot2.0整合Prometheus Grafana(二)》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuklEQVR42u3aMXLjMAwF0Nz/0puZrTJJJH0AROzisdJYsszHgoABfnzE49//8fX66/j55M/P79929earJw8PPDw8vNbU81dfTShflPyZ6kL8MhM8PDy8NV51cklISEJIHn6SIIGHh4f3brwka60m1veAJEjg4eHhvTOvurn3kukqFQ8PD+9VvFPb9ENpYDDd9VoLHh4eXszrNcBee73e38PDw8NrddXzLX5jyeYDDw8Pb4OXFxTycu28INs7snC50Hh4eHhHeZMibIKvliGqdx++hYeHh7fMm5dEqwcI8sbYfYH44R8DHh4e3gLvfqudT67aHsvT7ocFxcPDw1vjzX+4VwjO7+bl4MJE8fDw8Fq8JJnOG2D3b+gtU84onynDw8PDG/N6zf5qwp3s272W26UIDw8Pb41XLpIWyweT4u+kqYaHh4f3N7x8+06o+d1qcSRKu/Hw8PCO8pLSav5MNbTkaXEhgU70eHh4eANeb+NODkX1ihpnww8eHh7eNm+UlcfU3nGu3vN4eHh4G7y8RNtLuKu7dF5WjpYMDw8Pb4GXbOj5Eaj82NYkCOUlDzw8PLw93qmiQ17MzRcuuVsNb3h4eHhzXp6wTkoP1SS+962oZoyHh4d3iJdv4hufn5rn5dErPDw8vEO8/M//2QMEk02//M8ADw8Pb403geUtsftFqabyDy48PDy8Bd78Z/I0+mzgSd6Mh4eHt8HLDzbN099kQXthIKqy4OHh4a3xkmZ8LyTkpYrecSs8PDy8v+H1NtwkbPQOcs2vmwMPDw+vyMuDQa+kmweY/PNCyw0PDw9vjZc3+POwkRcj5jHtskSCh4eH91JeL/nulRVONerw8PDw3oGXt/97bbMe9VhgwMPDw4t5eeEgSYKrDbPqkpVTajw8PLyjvEkDrHqgqoesJt/H+nt4eHh438cnJg0r8PZSUMcAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1278014607&web_id=1278014607')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

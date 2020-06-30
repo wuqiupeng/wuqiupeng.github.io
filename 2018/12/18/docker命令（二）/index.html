@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>docker命令 (二) | JAVA码农随笔</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="docker">
+    <meta name="description" content="镜像使用列出镜像列表# docker images 显示： REPOSITORY            TAG                 IMAGE ID            CREATED             SIZEcentos                6.7                 192ad0341c8b        2 months ago        19">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker命令 (二)">
+<meta property="og:url" content="https://www.wqp0010.top/2018/12/18/docker命令（二）/index.html">
+<meta property="og:site_name" content="JAVA码农随笔">
+<meta property="og:description" content="镜像使用列出镜像列表# docker images 显示： REPOSITORY            TAG                 IMAGE ID            CREATED             SIZEcentos                6.7                 192ad0341c8b        2 months ago        19">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-30T00:33:58.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker命令 (二)">
+<meta name="twitter:description" content="镜像使用列出镜像列表# docker images 显示： REPOSITORY            TAG                 IMAGE ID            CREATED             SIZEcentos                6.7                 192ad0341c8b        2 months ago        19">
+    
+        <link rel="alternate" type="application/atom+xml" title="JAVA码农随笔" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">wuqiupeng</h5>
+          <a href="mailto:wqp0010@gmail.com" title="wqp0010@gmail.com" class="mail">wqp0010@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/wuqiupeng/" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/2565125543/" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">docker命令 (二)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">docker命令 (二)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-18T14:30:03.000Z" itemprop="datePublished" class="page-time">
+  2018-12-18
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#镜像使用"><span class="post-toc-number">1.</span> <span class="post-toc-text">镜像使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#列出镜像列表"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">列出镜像列表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#获取镜像"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">获取镜像</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查找镜像"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">查找镜像</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建镜像"><span class="post-toc-number">2.</span> <span class="post-toc-text">创建镜像</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#更新镜像"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">更新镜像</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#创建容器"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">创建容器</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#提交容器"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">提交容器</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#构建镜像"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">构建镜像</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#创建Dockerfile"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">创建Dockerfile</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#构建镜像-1"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">构建镜像</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#启动构造好的镜像"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">启动构造好的镜像</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#设置镜像标签"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">设置镜像标签</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker命令（二）" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">docker命令 (二)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-18 14:30:03" datetime="2018-12-18T14:30:03.000Z" itemprop="datePublished">2018-12-18</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="镜像使用"><a href="#镜像使用" class="headerlink" title="镜像使用"></a>镜像使用</h3><h4 id="列出镜像列表"><a href="#列出镜像列表" class="headerlink" title="列出镜像列表"></a>列出镜像列表</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker images</span></span><br></pre></td></tr></table></figure>
+<p>显示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">centos                6.7                 192ad0341c8b        2 months ago        191MB</span><br><span class="line">openjdk               8-jdk-alpine        54ae553cb104        3 months ago        103MB</span><br><span class="line">training/webapp       latest              6fae60ef3446        3 years ago         349MB</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><p>REPOSITORY：表示镜像的仓库源</p>
+</li>
+<li><p>TAG：镜像的标签</p>
+</li>
+<li><p>IMAGE ID：镜像ID</p>
+</li>
+<li><p>CREATED：镜像创建时间</p>
+</li>
+<li><p>SIZE：镜像大小</p>
+</li>
+</ul>
+<p>同一仓库源可以有多个 TAG，代表这个仓库源的不同个版本，如ubuntu仓库源里，有15.10、14.04等多个不同的版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。</p>
+<h4 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker pull centos:6.7</span></span><br></pre></td></tr></table></figure>
+<p>下载完成后，我们可以直接使用这个镜像来运行容器。</p>
+<h4 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker search httpd</span></span><br></pre></td></tr></table></figure>
+<p>显示为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">NAME                                    DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED</span><br><span class="line">httpd                                   The Apache HTTP Server Project                  2236                [OK]</span><br><span class="line">hypriot/rpi-busybox-httpd               Raspberry Pi compatible Docker Image with a …   45</span><br><span class="line">centos/httpd                                                                            21                                      [OK]</span><br><span class="line">centos/httpd-24-centos7                 Platform <span class="keyword">for</span> running Apache httpd 2.4 or bui…   20</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>NAME:镜像仓库源的名称</li>
+<li>DESCRIPTION:镜像的描述</li>
+<li>OFFICIAL:是否docker官方发布</li>
+</ul>
+<h3 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h3><h4 id="更新镜像"><a href="#更新镜像" class="headerlink" title="更新镜像"></a>更新镜像</h4><h5 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -t -i ubuntu:15.10 /bin/bash</span></span><br></pre></td></tr></table></figure>
+<p>在容器内执行apt-get update 然后退出</p>
+<h5 id="提交容器"><a href="#提交容器" class="headerlink" title="提交容器"></a>提交容器</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker commit -m="has update" -a="wu" e218edb10161 wu/ubuntu:v2</span></span><br></pre></td></tr></table></figure>
+<p>各个参数说明：</p>
+<ul>
+<li><p>-m:提交的描述信息</p>
+</li>
+<li><p>-a:指定镜像作者</p>
+</li>
+<li><p>e218edb10161：容器ID</p>
+</li>
+<li><p>wu/ubuntu:v2:指定要创建的目标镜像名</p>
+</li>
+</ul>
+<h4 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h4><h5 id="创建Dockerfile"><a href="#创建Dockerfile" class="headerlink" title="创建Dockerfile"></a>创建Dockerfile</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># vim Dockerfile</span></span><br></pre></td></tr></table></figure>
+<p>内容如下:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">FROM    centos:6.7</span><br><span class="line">MAINTAINER      Fisher <span class="string">"fisher@sudops.com"</span></span><br><span class="line"></span><br><span class="line">RUN     /bin/<span class="built_in">echo</span> <span class="string">'root:123456'</span> |chpasswd</span><br><span class="line">RUN     useradd wu</span><br><span class="line">RUN     /bin/<span class="built_in">echo</span> <span class="string">'wu:123456'</span> |chpasswd</span><br><span class="line">RUN     /bin/<span class="built_in">echo</span> -e <span class="string">"LANG=\"en_US.UTF-8\""</span> &gt;/etc/default/<span class="built_in">local</span></span><br><span class="line">EXPOSE  22</span><br><span class="line">EXPOSE  80</span><br><span class="line">CMD     /usr/sbin/sshd -D</span><br></pre></td></tr></table></figure>
+<p>每一个指令都会在镜像上创建一个新的层，每一个指令的前缀都必须是大写的。<br><br>第一条FROM，指定使用哪个镜像源<br><br>RUN 指令告诉docker 在镜像内执行命令，安装了什么。。。<br></p>
+<h5 id="构建镜像-1"><a href="#构建镜像-1" class="headerlink" title="构建镜像"></a>构建镜像</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker build -t wu/centos:6.7 .</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>-t ：指定要创建的目标镜像名</li>
+<li>. ：Dockerfile 文件所在目录，可以指定Dockerfile 的绝对路径</li>
+</ul>
+<h5 id="启动构造好的镜像"><a href="#启动构造好的镜像" class="headerlink" title="启动构造好的镜像"></a>启动构造好的镜像</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -t -i wu/centos:6.7 /bin/bash</span></span><br></pre></td></tr></table></figure>
+<p>在镜像内运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@e1b7c2d96228 /]<span class="comment"># id wu</span></span><br><span class="line">uid=500(wu) gid=500(wu) groups=500(wu)</span><br></pre></td></tr></table></figure>
+<p>可以发现已经成功创建了用户wu</p>
+<h4 id="设置镜像标签"><a href="#设置镜像标签" class="headerlink" title="设置镜像标签"></a>设置镜像标签</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker tag 286139a0cf69 wu/centos:dev</span></span><br></pre></td></tr></table></figure>
+<p>可以发现镜像中多了一条Tag为dev的记录</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="https://www.wqp0010.top">
+            <img src="/img/avatar.jpg" alt="wuqiupeng">
+            wuqiupeng
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/18/docker命令（二）/&title=《docker命令 (二)》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/18/docker命令（二）/&title=《docker命令 (二)》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/18/docker命令（二）/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker命令 (二)》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/18/docker命令（二）/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/18/docker命令（二）/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/18/SpringBoot前后端整合/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SpringBoot前后端整合</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/17/docker命令 (一)/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">docker命令 (一)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "mVF5KCUIVcjCDpIqP4dcKWXw-gzGzoHsz",
+            appKey: "JWj2x2gTJhQ82wlAVNAB3rkI",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>wuqiupeng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/18/docker命令（二）/&title=《docker命令 (二)》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/18/docker命令（二）/&title=《docker命令 (二)》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/18/docker命令（二）/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker命令 (二)》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/18/docker命令（二）/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/18/docker命令（二）/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3aS27DMAxF0ex/0y7QaRDpPtIpaupqFCSGreMCLD96vfC6ftf75/TK6219+vX1jSVDhozHMq7lWl+z3u56c+v7873JkCHjHAYJnesr08ennzd7liFDhgx8a7JdnhrKkCFDRofBfyXlrgwZMmQQRq1MTVtvnW9uq8VlyJDxQEZnMPDtz38035AhQ8Y/ZlzhSlO6NOks7kqGDBmjGbxNVmvD8UYbD7VBhitDhowRDH4M4t42XDo03YR4GTJkHMAgwa4fIjsjzM0dZMiQMZrBD0+QIpMEaJKSFp8lQ4aMAxjp7XgqyY9TdF6KDBkypjJ4oha8lfAAR62g3cw3ZMiQMYhxb5GZNubS9HFzHxkyZAxl1IJm7VDXOrzWRpgyZMg4gREkXjh14xtK/zPE7TYZMmSMY8QZZXtIUBsGbA6HyZAhYxwjLUrTUpaXwSSgbzJcGTJkjGbU2vF8YMCHBLXDZDJkyJjNqLW6yPfBgxshG/1lZMiQMYLBQyofVaYFaq2QliFDxgkMHhA7CRxPH2tNNxkyZJzGQJOEcGCQHrmIBw8yZMgYzUjLVN6MS49WpIWuDBkyzmFc4borcby39SZDhozZDL6+HWpRX7A0cpAhQ8YMRmckkJ52SJ8VnxyRIUPGaAYJsrwF1ilNi69JhgwZMnCg5JjO2OBjaihDhgwZ4YPTxlmnGSdDhowTGJ0illzf2Shq8MmQIWM0o1Y68oSPn/vgyWgMkCFDxlMZPxIezFJBQj5PAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1278014607&web_id=1278014607')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

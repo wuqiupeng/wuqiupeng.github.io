@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>SpringBoot2.x整合druid和mybatis-plus | JAVA码农随笔</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="SpringBoot,Druid,Mybatis-Plus">
+    <meta name="description" content="前言本篇说一下SpringBoot如何整合druid作为连接池，以及用mybatis-plus做持久层。用到的版本号如下    名称 版本号     SpringBoot 2.1.1.RELEASE   druid-spring-boot-starter 1.1.10   mybatis-plus-boot-starter 3.0.6    例子里使用一个user表，直接利用mybatis-plu">
+<meta name="keywords" content="SpringBoot,Druid,Mybatis-Plus">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot2.x整合druid和mybatis-plus">
+<meta property="og:url" content="https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/index.html">
+<meta property="og:site_name" content="JAVA码农随笔">
+<meta property="og:description" content="前言本篇说一下SpringBoot如何整合druid作为连接池，以及用mybatis-plus做持久层。用到的版本号如下    名称 版本号     SpringBoot 2.1.1.RELEASE   druid-spring-boot-starter 1.1.10   mybatis-plus-boot-starter 3.0.6    例子里使用一个user表，直接利用mybatis-plu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/structure.png">
+<meta property="og:updated_time" content="2020-06-30T00:33:58.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot2.x整合druid和mybatis-plus">
+<meta name="twitter:description" content="前言本篇说一下SpringBoot如何整合druid作为连接池，以及用mybatis-plus做持久层。用到的版本号如下    名称 版本号     SpringBoot 2.1.1.RELEASE   druid-spring-boot-starter 1.1.10   mybatis-plus-boot-starter 3.0.6    例子里使用一个user表，直接利用mybatis-plu">
+<meta name="twitter:image" content="https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/structure.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="JAVA码农随笔" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">wuqiupeng</h5>
+          <a href="mailto:wqp0010@gmail.com" title="wqp0010@gmail.com" class="mail">wqp0010@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/wuqiupeng/" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/2565125543/" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SpringBoot2.x整合druid和mybatis-plus</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SpringBoot2.x整合druid和mybatis-plus</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-29T14:56:57.000Z" itemprop="datePublished" class="page-time">
+  2018-12-29
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加依赖"><span class="post-toc-number">2.</span> <span class="post-toc-text">添加依赖</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加相关配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">添加相关配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#映射xml"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">映射xml</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#配置类"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">配置类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#实体类"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">实体类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Mapper类"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">Mapper类</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Service接口"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">Service接口</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Controller"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">Controller</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#增"><span class="post-toc-number">4.6.1.</span> <span class="post-toc-text">增</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#删"><span class="post-toc-number">4.6.2.</span> <span class="post-toc-text">删</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#改"><span class="post-toc-number">4.6.3.</span> <span class="post-toc-text">改</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#查单条记录"><span class="post-toc-number">4.6.4.</span> <span class="post-toc-text">查单条记录</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#分页查询"><span class="post-toc-number">4.6.5.</span> <span class="post-toc-text">分页查询</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考"><span class="post-toc-number">5.</span> <span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-SpringBoot2-x整合druid和mybatis-plus" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SpringBoot2.x整合druid和mybatis-plus</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-29 14:56:57" datetime="2018-12-29T14:56:57.000Z" itemprop="datePublished">2018-12-29</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>本篇说一下SpringBoot如何整合druid作为连接池，以及用mybatis-plus做持久层。<br>用到的版本号如下</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>版本号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SpringBoot</td>
+<td>2.1.1.RELEASE</td>
+</tr>
+<tr>
+<td>druid-spring-boot-starter</td>
+<td>1.1.10</td>
+</tr>
+<tr>
+<td>mybatis-plus-boot-starter</td>
+<td>3.0.6</td>
+</tr>
+</tbody>
+</table>
+<p>例子里使用一个user表，直接利用mybatis-plus提供的接口进行增删改查操作</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT <span class="keyword">COMMENT</span> <span class="string">'主键ID'</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'姓名'</span>,</span><br><span class="line">  <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'年龄'</span>,</span><br><span class="line">  <span class="string">`email`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> <span class="keyword">COMMENT</span> <span class="string">'邮箱'</span>,</span><br><span class="line">  <span class="string">`phone`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`userEvaluation`</span> <span class="built_in">varchar</span>(<span class="number">45</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">COLLATE</span>=utf8mb4_bin</span><br></pre></td></tr></table></figure>
+<h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><p>首先，在pom.xml添加以下的依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="添加相关配置"><a href="#添加相关配置" class="headerlink" title="添加相关配置"></a>添加相关配置</h4><p>在application.yml中增加以下配置</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment">#数据库配置</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  datasource:</span></span><br><span class="line"><span class="attr">    druid:</span></span><br><span class="line">      <span class="comment">#连接信息</span></span><br><span class="line"><span class="attr">      url:</span> <span class="attr">jdbc:mysql://localhost:3306/test</span></span><br><span class="line"><span class="attr">      username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">      password:</span> <span class="number">123456</span></span><br><span class="line"><span class="attr">      driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br><span class="line">      <span class="comment">#连接池配置</span></span><br><span class="line"><span class="attr">      min-idle:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">      initial-size:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">      max-active:</span> <span class="number">20</span></span><br><span class="line">      <span class="comment"># 配置获取连接等待超时的时间</span></span><br><span class="line"><span class="attr">      max-wait:</span> <span class="number">60000</span></span><br><span class="line">      <span class="comment"># 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒</span></span><br><span class="line"><span class="attr">      time-between-eviction-runs-millis:</span> <span class="number">60000</span></span><br><span class="line">      <span class="comment"># 配置一个连接在池中最小生存的时间，单位是毫秒</span></span><br><span class="line"><span class="attr">      min-evictable-idle-time-millis:</span> <span class="number">30000</span></span><br><span class="line"><span class="attr">      validation-query:</span> <span class="string">SELECT</span> <span class="number">1</span> <span class="string">FROM</span> <span class="string">DUAL</span></span><br><span class="line"><span class="attr">      test-while-idle:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">      test-on-borrow:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">      test-on-return:</span> <span class="literal">false</span></span><br><span class="line">      <span class="comment">#监控</span></span><br><span class="line"><span class="attr">      filter:</span></span><br><span class="line"><span class="attr">        wall:</span></span><br><span class="line"><span class="attr">          enabled:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#mybatis-plus配置</span></span><br><span class="line"><span class="attr">mybatis-plus:</span></span><br><span class="line">  <span class="comment">#xml地址</span></span><br><span class="line"><span class="attr">  mapper-locations:</span></span><br><span class="line"><span class="attr">    - classpath:</span><span class="string">mapper/*.xml</span></span><br><span class="line">  <span class="comment">#实体扫描</span></span><br><span class="line"><span class="attr">  type-aliases-package:</span> <span class="string">top.wqp0010.s1.demo.entity.UserEntity</span></span><br></pre></td></tr></table></figure>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>准备工作完毕，开始写代码。总体结构如下<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/structure.png" alt="代码结构" title="">
+                </div>
+                <div class="image-caption">代码结构</div>
+            </figure></p>
+<h5 id="映射xml"><a href="#映射xml" class="headerlink" title="映射xml"></a>映射xml</h5><p>在resources/mapper里新增一个UserMapper.xml</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"top.wqp0010.s1.demo.mapper.UserMapper"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里并没有写实际的方法，本例我们主要用mybatis-plus提供的方法进行操作，后续再加自己的方法进来</p>
+<h5 id="配置类"><a href="#配置类" class="headerlink" title="配置类"></a>配置类</h5><p>新增一个mybatis-plus的配置类，指定要扫描的包以及定义分页插件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@MapperScan</span>(<span class="string">"top.wqp0010.s1.demo.mapper*"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisPlusConfig</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * mybatis-plus分页插件&lt;br&gt;</span></span><br><span class="line"><span class="comment">   * 文档：http://mp.baomidou.com&lt;br&gt;</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> PaginationInterceptor <span class="title">paginationInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    PaginationInterceptor paginationInterceptor = <span class="keyword">new</span> PaginationInterceptor();</span><br><span class="line">    <span class="keyword">return</span> paginationInterceptor;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>新增一个druid的配置类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DruidConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(DruidConfig.class);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> ServletRegistrationBean <span class="title">druidServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    log.info(<span class="string">"init Druid Servlet Configuration "</span>);</span><br><span class="line">    ServletRegistrationBean servletRegistrationBean = <span class="keyword">new</span> ServletRegistrationBean();</span><br><span class="line">    servletRegistrationBean.setServlet(<span class="keyword">new</span> StatViewServlet());</span><br><span class="line">    servletRegistrationBean.addUrlMappings(<span class="string">"/druid/*"</span>);</span><br><span class="line">    Map&lt;String, String&gt; initParameters = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">    initParameters.put(<span class="string">"loginUsername"</span>, <span class="string">"admin"</span>);<span class="comment">// 用户名</span></span><br><span class="line">    initParameters.put(<span class="string">"loginPassword"</span>, <span class="string">"admin"</span>);<span class="comment">// 密码</span></span><br><span class="line">    initParameters.put(<span class="string">"resetEnable"</span>, <span class="string">"false"</span>);<span class="comment">// 禁用HTML页面上的“Reset All”功能</span></span><br><span class="line">    initParameters.put(<span class="string">"allow"</span>, <span class="string">""</span>); <span class="comment">// IP白名单 (没有配置或者为空，则允许所有访问)</span></span><br><span class="line">    <span class="comment">//initParameters.put("deny", "192.168.20.38");// IP黑名单 (存在共同时，deny优先于allow)</span></span><br><span class="line">    servletRegistrationBean.setInitParameters(initParameters);</span><br><span class="line">    <span class="keyword">return</span> servletRegistrationBean;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Bean</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> FilterRegistrationBean <span class="title">filterRegistrationBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    FilterRegistrationBean filterRegistrationBean = <span class="keyword">new</span> FilterRegistrationBean();</span><br><span class="line">    filterRegistrationBean.setFilter(<span class="keyword">new</span> WebStatFilter());</span><br><span class="line">    filterRegistrationBean.addUrlPatterns(<span class="string">"/*"</span>);</span><br><span class="line">    filterRegistrationBean.addInitParameter(<span class="string">"exclusions"</span>, <span class="string">"*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"</span>);</span><br><span class="line">    <span class="keyword">return</span> filterRegistrationBean;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="实体类"><a href="#实体类" class="headerlink" title="实体类"></a>实体类</h5><p>定义UserEntity，这个类和数据库user表对应。<br>这里同时展示了如何映射表名以及表字段和类字段名不同时的处理</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  数据库表名为"user"，用<span class="doctag">@TableName</span>映射</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@TableName</span>(<span class="string">"user"</span>)</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserEntity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 表主键 此处需要设置为数据库ID自增</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@TableId</span>(type = IdType.AUTO)</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">long</span> id;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">  <span class="keyword">private</span> String email;</span><br><span class="line">  <span class="keyword">private</span> String phone;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 此处故意用了类字段名和数据库列明不相符</span></span><br><span class="line"><span class="comment">   * 可以用<span class="doctag">@TableField</span>注解来表示</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@TableField</span>(<span class="string">"userEvaluation"</span>)</span><br><span class="line">  <span class="keyword">private</span> String evaluation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Mapper类"><a href="#Mapper类" class="headerlink" title="Mapper类"></a>Mapper类</h5><p>定义UserMapper接口，主要是继承了mybatis-plus的BaseMapper接口，没有定义自己的方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> <span class="keyword">extends</span> <span class="title">BaseMapper</span>&lt;<span class="title">UserEntity</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Service接口"><a href="#Service接口" class="headerlink" title="Service接口"></a>Service接口</h5><p>定义IUserService接口，主要是继承mybatis-plus的IService接口，同样没有自己的实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IUserService</span> <span class="keyword">extends</span> <span class="title">IService</span>&lt;<span class="title">UserEntity</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UserServiceImpl 实现类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserServiceImpl</span> <span class="keyword">extends</span> <span class="title">ServiceImpl</span>&lt;<span class="title">UserMapper</span>, <span class="title">UserEntity</span>&gt; <span class="keyword">implements</span> <span class="title">IUserService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h5><p>可以看到，上面我们定义的Mapper和Service都是空的，并没有实现具体的方法。现在我们利用mybatis-plus预置的接口实现增删改查</p>
+<h6 id="增"><a href="#增" class="headerlink" title="增"></a>增</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  IUserService userService;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@RequestMapping</span>(<span class="string">"/user/add"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">addUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里为了测试方便 直接产生了一些随机字符串作为用户参数</span></span><br><span class="line">    UserEntity userEntity = <span class="keyword">new</span> UserEntity();</span><br><span class="line">    userEntity.setName(RandomStringUtils.randomAlphabetic(<span class="number">5</span>));</span><br><span class="line">    userEntity.setAge(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</span><br><span class="line">    userEntity.setEmail(RandomStringUtils.randomAlphanumeric(<span class="number">5</span>) + <span class="string">"@test.com"</span>);</span><br><span class="line">    userEntity.setPhone(<span class="string">"18"</span> + RandomStringUtils.randomNumeric(<span class="number">9</span>));</span><br><span class="line">    userEntity.setEvaluation(RandomStringUtils.randomAlphanumeric(<span class="number">20</span>));</span><br><span class="line">    userService.save(userEntity);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"success insert user = "</span> + JSON.toJSONString(userEntity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="删"><a href="#删" class="headerlink" title="删"></a>删</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user/remove"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">removeUser</span><span class="params">(@RequestParam(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">  userService.removeById(id);</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"success delete userId = "</span> + id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="改"><a href="#改" class="headerlink" title="改"></a>改</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user/update"</span>)</span><br><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">updateUser</span><span class="params">(@RequestParam(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">   <span class="comment">//为了测试方便，属性值都再次随机赋值</span></span><br><span class="line">   UserEntity userEntity = <span class="keyword">new</span> UserEntity();</span><br><span class="line">   userEntity.setId(id);</span><br><span class="line">   userEntity.setName(RandomStringUtils.randomAlphabetic(<span class="number">5</span>));</span><br><span class="line">   userEntity.setAge(<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</span><br><span class="line">   userEntity.setEmail(RandomStringUtils.randomAlphanumeric(<span class="number">5</span>) + <span class="string">"@test.com"</span>);</span><br><span class="line">   userEntity.setPhone(<span class="string">"18"</span> + RandomStringUtils.randomNumeric(<span class="number">9</span>));</span><br><span class="line">   userEntity.setEvaluation(RandomStringUtils.randomAlphanumeric(<span class="number">20</span>));</span><br><span class="line">   userService.updateById(userEntity);</span><br><span class="line">   <span class="keyword">return</span> <span class="string">"success update user = "</span> + JSON.toJSONString(userEntity);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h6 id="查单条记录"><a href="#查单条记录" class="headerlink" title="查单条记录"></a>查单条记录</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user/info"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> UserEntity <span class="title">getUser</span><span class="params">(@RequestParam(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">  UserEntity userEntity = userService.getById(id);</span><br><span class="line">  <span class="keyword">return</span> userEntity;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h6><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user/list"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> IPage <span class="title">getUserList</span><span class="params">(Page page)</span> </span>&#123;</span><br><span class="line">  page.setDesc(<span class="string">"name"</span>);</span><br><span class="line">  IPage iPage = userService.page(page);</span><br><span class="line">  <span class="keyword">return</span> iPage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>浏览器访问<a><a href="http://localhost:8080/user/list?size=3&amp;current=1" target="_blank" rel="noopener">http://localhost:8080/user/list?size=3&amp;current=1</a></a><br>返回的结果即是根据数据库name字段倒叙的分页结果，是不是很方便</p>
+<p>打开<a><a href="http://localhost:8080/druid/" target="_blank" rel="noopener">http://localhost:8080/druid/</a></a>即可看到druid的监控页</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ol>
+<li><a href="https://github.com/alibaba/druid" target="_blank" rel="noopener">druid官网</a></li>
+<li><a href="https://mp.baomidou.com/" target="_blank" rel="noopener">mybatis-plus官网</a></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="https://www.wqp0010.top">
+            <img src="/img/avatar.jpg" alt="wuqiupeng">
+            wuqiupeng
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Druid/">Druid</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybatis-Plus/">Mybatis-Plus</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/&title=《SpringBoot2.x整合druid和mybatis-plus》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/&title=《SpringBoot2.x整合druid和mybatis-plus》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringBoot2.x整合druid和mybatis-plus》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/01/09/docker命令-三/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">docker命令 (三)</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/28/SpringBoot2-0整合Prometheus-Grafana-二/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SpringBoot2.0整合Prometheus Grafana(二)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "mVF5KCUIVcjCDpIqP4dcKWXw-gzGzoHsz",
+            appKey: "JWj2x2gTJhQ82wlAVNAB3rkI",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>wuqiupeng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/&title=《SpringBoot2.x整合druid和mybatis-plus》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/&title=《SpringBoot2.x整合druid和mybatis-plus》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringBoot2.x整合druid和mybatis-plus》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/29/SpringBoot2-x整合druid和mybatis-plus/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3aQXLbQAwEQP//0841KUfUDMBllKrmySVT5PYeFhCAr6/4+v5xXf/35z2/3/nqk+vnvHrmDRceHh7eeumvHn296OuF5ttx/a18zXh4eHinedeH+CwY5KGiBeeBBw8PD+8TeHl4mOW6CQkPDw/v/+LlpYokYCTv/QdxDw8PDy/gtSXUNuHOyxbJdhypteDh4eHFvDz9/Zy/j/T38PDw8NZd9eSwbpthm/JHvVo8PDy8A7z8wN00+9uRgk2BGA8PD+80Ly+Y5ktsS73nNhEPDw/vNC8/mtvEN19cvnFRmo6Hh4d3gDdr/M/a/JviRVuwwMPDwzvHywcC8mN9NhCQh6ho0AoPDw/vEd6s9dUm5cnS22GvYa0FDw8Pb8QrumTxUT5LnYvFteEBDw8P7wCvTazvavPne78q6eLh4eEd5uXFiHtHr2bPidJ6PDw8vEd4s8JBW/zdvL0okeDh4eE9wpu1oJL727DRIouqMB4eHt6I1ybKbYN/VqjNqdHQFR4eHt4B3v41bbqcjCnMCrt/PAcPDw/vGG9WnM2P/n3BN38jHh4e3jO89sDdtLL2sCJU4OHh4T3Cm6W/J8qy7bf+ciceHh7eAV6bFucL2j9z1irDw8PDe5I3azjNhgPyQkO7kjdtMDw8PLxbedevT4YJ2ntm4SQitbuLh4eHN+LNSrf5dmzGVfMk/k1KjYeHh3eYtxnGumsoYb8ePDw8vHt53+XVZqqbsJFvXDRThoeHh3cTrw0G9dcWba1Nmn7b4vDw8PCCF89a/rMWVz7gtQoMeHh4eMd4yY/8fVm2aPkviiNFAwwPDw/vEV5elk0Kte3GtSNfeHh4eJ/Ay0u9J8YR8sEsPDw8vNO8vBCw/yRfQ741bwIDHh4e3q289gf/LMFtW1856YYLDw8PL+X9AlRJAycdFAM4AAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1278014607&web_id=1278014607')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

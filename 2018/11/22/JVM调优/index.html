@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>JVM调优 | JAVA码农随笔</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JVM">
+    <meta name="description" content="查看java进程的启动参数# jcmd 27876 VM.flags 得到以下结果 27876:-XX:CICompilerCount=3 -XX:InitialHeapSize=264241152 -XX:MaxHeapSize=4208984064 -XX:MaxNewSize=1402994688 -XX:MinHeapDeltaBytes=524288 -XX:NewSize=880803">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM调优">
+<meta property="og:url" content="https://www.wqp0010.top/2018/11/22/JVM调优/index.html">
+<meta property="og:site_name" content="JAVA码农随笔">
+<meta property="og:description" content="查看java进程的启动参数# jcmd 27876 VM.flags 得到以下结果 27876:-XX:CICompilerCount=3 -XX:InitialHeapSize=264241152 -XX:MaxHeapSize=4208984064 -XX:MaxNewSize=1402994688 -XX:MinHeapDeltaBytes=524288 -XX:NewSize=880803">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-30T00:33:58.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM调优">
+<meta name="twitter:description" content="查看java进程的启动参数# jcmd 27876 VM.flags 得到以下结果 27876:-XX:CICompilerCount=3 -XX:InitialHeapSize=264241152 -XX:MaxHeapSize=4208984064 -XX:MaxNewSize=1402994688 -XX:MinHeapDeltaBytes=524288 -XX:NewSize=880803">
+    
+        <link rel="alternate" type="application/atom+xml" title="JAVA码农随笔" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">wuqiupeng</h5>
+          <a href="mailto:wqp0010@gmail.com" title="wqp0010@gmail.com" class="mail">wqp0010@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/wuqiupeng/" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/2565125543/" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">JVM调优</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">JVM调优</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-11-22T10:49:48.000Z" itemprop="datePublished" class="page-time">
+  2018-11-22
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查看java进程的启动参数"><span class="post-toc-number">1.</span> <span class="post-toc-text">查看java进程的启动参数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#打印堆概要信息"><span class="post-toc-number">2.</span> <span class="post-toc-text">打印堆概要信息</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查看GC情况"><span class="post-toc-number">3.</span> <span class="post-toc-text">查看GC情况</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#获取堆信息"><span class="post-toc-number">4.</span> <span class="post-toc-text">获取堆信息</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查看线程信息"><span class="post-toc-number">5.</span> <span class="post-toc-text">查看线程信息</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#查看非堆内存情况"><span class="post-toc-number">6.</span> <span class="post-toc-text">查看非堆内存情况</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-JVM调优" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">JVM调优</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-11-22 10:49:48" datetime="2018-11-22T10:49:48.000Z" itemprop="datePublished">2018-11-22</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="查看java进程的启动参数"><a href="#查看java进程的启动参数" class="headerlink" title="查看java进程的启动参数"></a>查看java进程的启动参数</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># jcmd 27876 VM.flags</span></span><br></pre></td></tr></table></figure>
+<p>得到以下结果</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">27876:</span><br><span class="line">-XX:CICompilerCount=3 -XX:InitialHeapSize=264241152 -XX:MaxHeapSize=4208984064 -XX:MaxNewSize=1402994688 -XX:MinHeapDeltaBytes=524288 -XX:NewSize=88080384 -XX:OldSize=176160768 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseParallelGC</span><br></pre></td></tr></table></figure>
+<h2 id="打印堆概要信息"><a href="#打印堆概要信息" class="headerlink" title="打印堆概要信息"></a>打印堆概要信息</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># jmap -heap 27876</span></span><br></pre></td></tr></table></figure>
+<p>得到以下结果<br></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Attaching to process ID 27876, please <span class="built_in">wait</span>...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.171-b11</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Parallel GC with 4 thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration:</span><br><span class="line">   MinHeapFreeRatio         = 0</span><br><span class="line">   MaxHeapFreeRatio         = 100</span><br><span class="line">   MaxHeapSize              = 4208984064 (4014.0MB)</span><br><span class="line">   NewSize                  = 88080384 (84.0MB)</span><br><span class="line">   MaxNewSize               = 1402994688 (1338.0MB)</span><br><span class="line">   OldSize                  = 176160768 (168.0MB)</span><br><span class="line">   NewRatio                 = 2</span><br><span class="line">   SurvivorRatio            = 8</span><br><span class="line">   MetaspaceSize            = 21807104 (20.796875MB)</span><br><span class="line">   CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">   MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">   G1HeapRegionSize         = 0 (0.0MB)</span><br><span class="line"></span><br><span class="line">Heap Usage:</span><br><span class="line">PS Young Generation</span><br><span class="line">Eden Space:</span><br><span class="line">   capacity = 706215936 (673.5MB)</span><br><span class="line">   used     = 53656856 (51.171165466308594MB)</span><br><span class="line">   free     = 652559080 (622.3288345336914MB)</span><br><span class="line">   7.597797396630823% used</span><br><span class="line">From Space:</span><br><span class="line">   capacity = 3670016 (3.5MB)</span><br><span class="line">   used     = 0 (0.0MB)</span><br><span class="line">   free     = 3670016 (3.5MB)</span><br><span class="line">   0.0% used</span><br><span class="line">To Space:</span><br><span class="line">   capacity = 20447232 (19.5MB)</span><br><span class="line">   used     = 0 (0.0MB)</span><br><span class="line">   free     = 20447232 (19.5MB)</span><br><span class="line">   0.0% used</span><br><span class="line">PS Old Generation</span><br><span class="line">   capacity = 282066944 (269.0MB)</span><br><span class="line">   used     = 40132768 (38.273590087890625MB)</span><br><span class="line">   free     = 241934176 (230.72640991210938MB)</span><br><span class="line">   14.228100404420307% used</span><br><span class="line"></span><br><span class="line">26205 interned Strings occupying 3370072 bytes.</span><br></pre></td></tr></table></figure>
+<h2 id="查看GC情况"><a href="#查看GC情况" class="headerlink" title="查看GC情况"></a>查看GC情况</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># jstat -gccause 27876 5000 100</span></span><br></pre></td></tr></table></figure>
+<p>参数说明：<br></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gccause</td>
+<td>垃圾收集统计概述（同-gcutil），附加最近两次垃圾回收事件的原因。</td>
+</tr>
+<tr>
+<td>5000</td>
+<td>打印间隔</td>
+</tr>
+<tr>
+<td>100</td>
+<td>打印次数</td>
+</tr>
+</tbody>
+</table>
+<p>得到如下结果：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT    LGCC                 GCC</span><br><span class="line">0.00   0.00   7.60  14.23  97.49  96.72     16    0.312     4    0.636    0.948 Heap Dump Initiated GC No GC</span><br><span class="line">0.00   0.00   7.60  14.23  97.49  96.72     16    0.312     4    0.636    0.948 Heap Dump Initiated GC No GC</span><br><span class="line">0.00   0.00   7.60  14.23  97.49  96.72     16    0.312     4    0.636    0.948 Heap Dump Initiated GC No GC</span><br><span class="line">0.00   0.00   7.60  14.23  97.49  96.72     16    0.312     4    0.636    0.948 Heap Dump Initiated GC No GC</span><br></pre></td></tr></table></figure>
+<h2 id="获取堆信息"><a href="#获取堆信息" class="headerlink" title="获取堆信息"></a>获取堆信息</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># jmap -dump:live,format=b,file=test.hprof 27876</span></span><br></pre></td></tr></table></figure>
+<p>得到一个test.hprof文件，用MAT打开就可以看到堆信息</p>
+<h2 id="查看线程信息"><a href="#查看线程信息" class="headerlink" title="查看线程信息"></a>查看线程信息</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># jstack -l 2826|more</span></span><br></pre></td></tr></table></figure>
+<p>参数说明：<br></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F</td>
+<td>当正常输出请求不被响应时，强制输出线程堆栈</td>
+</tr>
+<tr>
+<td>l</td>
+<td>除堆栈外，显示关于锁的附加信息</td>
+</tr>
+<tr>
+<td>m</td>
+<td>如果调用到本地方法的话，可以显示C/C++的堆栈</td>
+</tr>
+</tbody>
+</table>
+<h2 id="查看非堆内存情况"><a href="#查看非堆内存情况" class="headerlink" title="查看非堆内存情况"></a>查看非堆内存情况</h2><p>需要在启动时加参数-XX:NativeMemoryTracking=summary -XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics<br>注意该参数会导致一定的性能损耗，生产环境不建议使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">java -XX:NativeMemoryTracking=summary -XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics -jar app.jar</span><br></pre></td></tr></table></figure>
+<p>查看非堆内存</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jcmd 2826 VM.native_memory summary scale=MB</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="https://www.wqp0010.top">
+            <img src="/img/avatar.jpg" alt="wuqiupeng">
+            wuqiupeng
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/11/22/JVM调优/&title=《JVM调优》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/11/22/JVM调优/&title=《JVM调优》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/11/22/JVM调优/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM调优》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/11/22/JVM调优/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/11/22/JVM调优/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/17/docker命令 (一)/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">docker命令 (一)</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "mVF5KCUIVcjCDpIqP4dcKWXw-gzGzoHsz",
+            appKey: "JWj2x2gTJhQ82wlAVNAB3rkI",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>wuqiupeng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/11/22/JVM调优/&title=《JVM调优》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/11/22/JVM调优/&title=《JVM调优》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/11/22/JVM调优/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JVM调优》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/11/22/JVM调优/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/11/22/JVM调优/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3aQW6FMAwFwH//S9Ntqwp4tmklksmqonxgWBjH9ucTr+Pbuj7n9/lnv/p9PLnLaGFgYLyWcVyusxvkD5Hw8uOnVAwMjA0YSQDNAdXgm7+s0+MYGBgY8aV7gbt3LwwMDIwHLl1MHDEwMDCuGUmgnFe6rhPHJK18YC+OgYHxQkZedf//v/+kv4GBgfEqxlFck43opP1581QYGBhLM/IA1yvuJ+2E3rAFBgbGbowk8FXD6LOMZrKIgYGxBGOewFVbC71i3M3TYmBgLM3oPW7vIfKgnKSh0ZcEAwNjCcZ80OGx4FgM+qffDQwMjKUZ1cBXTQfzI9XXioGBsSejmtjl4Kfu8uO3GBgYGzDyzWS1z1ANuPkruJkZwcDAWIiRh7akxdgb2sjrgtELxcDAWJRRHaroNSwnMyCFbgYGBsYGjLwB2dumTtLQm9QQAwNjaUavSZCnd5PzP9WFgYGxHKM6EjEPi71RsJvPAAYGxtKMXmmsl0o+VZJrhmMMDIyXMyYhL0nyJlcobJgxMDA2YMzHLMqDEXELIaJiYGBsw0gGHZ7qG05eU/RvDAyMJRhHcU0C5TwEl3NbDAyMJRiT6no1dZuMl/XaGBgYGCsx5kX/XorZC+U3m1gMDIylGYUSfLEwlw+ETUI/BgYGRr5N7R3JU8mbYQsMDAyM3g2K6WO18o+BgbEPI9nEVh+0GoLzIQ8MDIzdGPnWMW9eTpD5FhcDA2MDxheka9sZjd84jwAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1278014607&web_id=1278014607')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

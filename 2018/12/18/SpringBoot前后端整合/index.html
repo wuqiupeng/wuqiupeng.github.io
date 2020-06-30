@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>SpringBoot前后端整合 | JAVA码农随笔</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="SpringBoot,maven,pom,Vue">
+    <meta name="description" content="背景项目中后台代码用的SpringBoot，前端代码用的Vue，现在想放到一个项目中 用maven管理 代码结构总结构大概如下：  all backend - pom.xml  frontend- pom.xml  pom.xml    思路  编译前端代码    复制编译好的前端文件到后台代码    编译后台代码    pom主工程&amp;lt;modules&amp;gt;  &amp;lt;module&amp;gt;f">
+<meta name="keywords" content="SpringBoot,maven,pom,Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot前后端整合">
+<meta property="og:url" content="https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/index.html">
+<meta property="og:site_name" content="JAVA码农随笔">
+<meta property="og:description" content="背景项目中后台代码用的SpringBoot，前端代码用的Vue，现在想放到一个项目中 用maven管理 代码结构总结构大概如下：  all backend - pom.xml  frontend- pom.xml  pom.xml    思路  编译前端代码    复制编译好的前端文件到后台代码    编译后台代码    pom主工程&amp;lt;modules&amp;gt;  &amp;lt;module&amp;gt;f">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-30T00:33:58.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot前后端整合">
+<meta name="twitter:description" content="背景项目中后台代码用的SpringBoot，前端代码用的Vue，现在想放到一个项目中 用maven管理 代码结构总结构大概如下：  all backend - pom.xml  frontend- pom.xml  pom.xml    思路  编译前端代码    复制编译好的前端文件到后台代码    编译后台代码    pom主工程&amp;lt;modules&amp;gt;  &amp;lt;module&amp;gt;f">
+    
+        <link rel="alternate" type="application/atom+xml" title="JAVA码农随笔" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">wuqiupeng</h5>
+          <a href="mailto:wqp0010@gmail.com" title="wqp0010@gmail.com" class="mail">wqp0010@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/wuqiupeng/" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/2565125543/" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SpringBoot前后端整合</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SpringBoot前后端整合</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-18T15:31:23.000Z" itemprop="datePublished" class="page-time">
+  2018-12-18
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#背景"><span class="post-toc-number">1.</span> <span class="post-toc-text">背景</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码结构"><span class="post-toc-number">2.</span> <span class="post-toc-text">代码结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#思路"><span class="post-toc-number">3.</span> <span class="post-toc-text">思路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#pom"><span class="post-toc-number">4.</span> <span class="post-toc-text">pom</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#主工程"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">主工程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#frontend"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">frontend</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#backend"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">backend</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#结果"><span class="post-toc-number">5.</span> <span class="post-toc-text">结果</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-SpringBoot前后端整合" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SpringBoot前后端整合</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-18 15:31:23" datetime="2018-12-18T15:31:23.000Z" itemprop="datePublished">2018-12-18</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>项目中后台代码用的SpringBoot，前端代码用的Vue，现在想放到一个项目中 用maven管理</p>
+<h4 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h4><p>总结构大概如下：</p>
+<ul>
+<li>all<ul>
+<li>backend <pre><code>- pom.xml
+</code></pre></li>
+<li>frontend<pre><code>- pom.xml
+</code></pre></li>
+<li>pom.xml</li>
+</ul>
+</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li><ol>
+<li>编译前端代码</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>复制编译好的前端文件到后台代码</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>编译后台代码</li>
+</ol>
+</li>
+</ul>
+<h4 id="pom"><a href="#pom" class="headerlink" title="pom"></a>pom</h4><h5 id="主工程"><a href="#主工程" class="headerlink" title="主工程"></a>主工程</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">module</span>&gt;</span>frontend<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">module</span>&gt;</span>backend<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>主要是写好模块 指定顺序</p>
+<h5 id="frontend"><a href="#frontend" class="headerlink" title="frontend"></a>frontend</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">     <span class="comment">&lt;!-- 配置npm安装 --&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.eirslett<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>frontend-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!-- 安装nodejs和npm--&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>install node and npm<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>install-node-and-npm<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">nodeVersion</span>&gt;</span>v10.12.0<span class="tag">&lt;/<span class="name">nodeVersion</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">npmVersion</span>&gt;</span>6.4.1<span class="tag">&lt;/<span class="name">npmVersion</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!-- 安装webpack --&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>npm install webpack<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>npm<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">phase</span>&gt;</span>generate-resources<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">arguments</span>&gt;</span>install webpack -g<span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!-- 安装项目依赖 --&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>npm install<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>npm<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">phase</span>&gt;</span>generate-resources<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">arguments</span>&gt;</span>install<span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">         <span class="comment">&lt;!-- 编译 --&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">id</span>&gt;</span>npm run build<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">goal</span>&gt;</span>npm<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">phase</span>&gt;</span>generate-resources<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="name">arguments</span>&gt;</span>run build<span class="tag">&lt;/<span class="name">arguments</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>主要是利用frontend-maven-plugin插件进行一系列的操作:</p>
+<ul>
+<li>1.安装nodejs和npm命令</li>
+<li>2.安装webpack</li>
+<li>3.安装项目依赖</li>
+<li>4.编译项目</li>
+</ul>
+<h5 id="backend"><a href="#backend" class="headerlink" title="backend"></a>backend</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 复制前端编译好的页面 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-resources-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">id</span>&gt;</span>copy frontend content<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">phase</span>&gt;</span>generate-resources<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">goal</span>&gt;</span>copy-resources<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 复制文件的目的目录  --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">outputDirectory</span>&gt;</span>src/main/resources/static/<span class="tag">&lt;/<span class="name">outputDirectory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">overwrite</span>&gt;</span>true<span class="tag">&lt;/<span class="name">overwrite</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 复制文件的源目录 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.parent.basedir&#125;/frontend/target/dist<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>主要是利用frontend-maven-plugin插件,将编译好的前端文件复制到后台代码指定目录中</p>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p>至此，即可完成需求<br>根目录下执行mvn package即可编译完整项目</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="https://www.wqp0010.top">
+            <img src="/img/avatar.jpg" alt="wuqiupeng">
+            wuqiupeng
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/">SpringBoot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pom/">pom</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/&title=《SpringBoot前后端整合》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/&title=《SpringBoot前后端整合》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringBoot前后端整合》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/18/maven打包插件使用/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">maven打包插件使用</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/12/18/docker命令（二）/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">docker命令 (二)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "mVF5KCUIVcjCDpIqP4dcKWXw-gzGzoHsz",
+            appKey: "JWj2x2gTJhQ82wlAVNAB3rkI",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>wuqiupeng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/&title=《SpringBoot前后端整合》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/&title=《SpringBoot前后端整合》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SpringBoot前后端整合》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/18/SpringBoot前后端整合/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3au5KDMAwF0Pz/T7PNFlss5EoimcE+rpg8wIfijmX59YrH8WecfZv/vveUGwYGBsZjGcflOHvA2S97E02e++aJGBgYGzCuYzQBnF0nL+L6kyTiMTAwMJKITGIxD1YMDAyMeeDmVWQvyjEwMDB6Rez1VKqLxQT/kVocAwPjgYx8m+z71x/pb2BgYDyKcRRHcof82/l8fu+JgYGxNCMPuHzhWG2C9g5bYGBg7MmoNh3zqO29rGRDsHyOAwMDYwlGsgSclL7JRPPr08DFwMBYiDEPzd6Eqs2GN68JAwNjaUb1z9VDEpM2QHmDDwMDY2PGPGTz0MzL5uaNMDAwHsvIp3tX8zIvbsszxMDAWI6RtyR72/29wE3uE223YWBgLMG4a+t/fvwrj9donYuBgbEoI1+6JUfEqi2HfD6v6jvGwMB4OGN+eGISzZMi9p8VLgYGxsaMamE5Wd71lqcYGBg7MKqRlywNe03KhPRmiw0DA2M5RhKdSZNg0qrsHS+LWgIYGBiLMiZHH/KgzAM3v8bAwNiHMQ/iao05L6QxMDB2Y+QHUiek5uGJ+aYbBgbGAxlHcfRakoVCtFjuYmBg7MDoZVq1+KwGa3WzDwMDYwfGpDE5WQhWA7fZj8XAwFiIkQdf9SBFNUyrFSsGBgbGXQ3IamlabiFgYGBgFAO3V7KO2gkYGBgbMKpb+Xl52SuG80IXAwNjB0ZeOs7L0V6P4rZGJgYGxvMYP8zTLLp2jDhOAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1278014607&web_id=1278014607')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

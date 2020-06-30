@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>docker命令 (一) | JAVA码农随笔</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="docker">
+    <meta name="description" content="启动docker# docker run centos:6.7 /bin/echo &quot;Hello world&quot; 结果： Hello world 说明：  docker run 运行一个容器 centos:6.7  指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像 /bin/echo “Hello world">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker命令 (一)">
+<meta property="og:url" content="https://www.wqp0010.top/2018/12/17/docker命令 (一)/index.html">
+<meta property="og:site_name" content="JAVA码农随笔">
+<meta property="og:description" content="启动docker# docker run centos:6.7 /bin/echo &quot;Hello world&quot; 结果： Hello world 说明：  docker run 运行一个容器 centos:6.7  指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像 /bin/echo “Hello world">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-30T00:33:58.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker命令 (一)">
+<meta name="twitter:description" content="启动docker# docker run centos:6.7 /bin/echo &quot;Hello world&quot; 结果： Hello world 说明：  docker run 运行一个容器 centos:6.7  指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像 /bin/echo “Hello world">
+    
+        <link rel="alternate" type="application/atom+xml" title="JAVA码农随笔" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">wuqiupeng</h5>
+          <a href="mailto:wqp0010@gmail.com" title="wqp0010@gmail.com" class="mail">wqp0010@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/wuqiupeng/" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/u/2565125543/" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">docker命令 (一)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">docker命令 (一)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2018-12-17T11:33:07.000Z" itemprop="datePublished" class="page-time">
+  2018-12-17
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启动docker"><span class="post-toc-number">1.</span> <span class="post-toc-text">启动docker</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行交互式的容器"><span class="post-toc-number">2.</span> <span class="post-toc-text">运行交互式的容器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启动容器"><span class="post-toc-number">3.</span> <span class="post-toc-text">启动容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#后台启动"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">后台启动</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看后台运行的容器"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">查看后台运行的容器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看容器内的输出"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">查看容器内的输出</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#停止容器"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">停止容器</span></a></li></ol></li></ol><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#docker容器"><span class="post-toc-number"></span> <span class="post-toc-text">docker容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行一个web应用"><span class="post-toc-number">1.</span> <span class="post-toc-text">运行一个web应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#拉取镜像"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">拉取镜像</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#启动web应用"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">启动web应用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看应用"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">查看应用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#设置端口"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">设置端口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看端口映射"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">查看端口映射</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查看日志"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">查看日志</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#移除容器"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">移除容器</span></a></li></ol></li></ol>
+        </li></nav>
+    </aside>
+
+
+<article id="post-docker命令 (一)" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">docker命令 (一)</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2018-12-17 11:33:07" datetime="2018-12-17T11:33:07.000Z" itemprop="datePublished">2018-12-17</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run centos:6.7 /bin/echo "Hello world"</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Hello world</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>docker run 运行一个容器</li>
+<li>centos:6.7  指定要运行的镜像，Docker首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像</li>
+<li>/bin/echo “Hello world” 在启动的容器里执行的命令</li>
+</ul>
+<h3 id="运行交互式的容器"><a href="#运行交互式的容器" class="headerlink" title="运行交互式的容器"></a>运行交互式的容器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -i -t centos:6.7 /bin/bash</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@95f68434a3b2 /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>-t 在新容器内指定一个伪终端或终端</li>
+<li>-i 允许你对容器内的标准输入 (STDIN) 进行交互</li>
+</ul>
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h3><h4 id="后台启动"><a href="#后台启动" class="headerlink" title="后台启动"></a>后台启动</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -d centos:6.7 /bin/sh -c "while true; do echo hello world; sleep 1; done"</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">4767f1d1c05be0967e68a61418a40a1c538dc4b7c362b71aafb8c79dcbffc4c3</span><br></pre></td></tr></table></figure>
+<p>这个长字符串叫做容器ID，对每个容器来说都是唯一的</p>
+<h4 id="查看后台运行的容器"><a href="#查看后台运行的容器" class="headerlink" title="查看后台运行的容器"></a>查看后台运行的容器</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker ps</span></span><br></pre></td></tr></table></figure>
+<p>显示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">4767f1d1c05b        centos:6.7          <span class="string">"/bin/sh -c 'while t…"</span>   10 seconds ago      Up 9 seconds                            compassionate_perlman</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>CONTAINER ID:容器ID</li>
+<li>NAMES:自动分配的容器名称</li>
+</ul>
+<h4 id="查看容器内的输出"><a href="#查看容器内的输出" class="headerlink" title="查看容器内的输出"></a>查看容器内的输出</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker logs 4767f1d1c05b</span></span><br></pre></td></tr></table></figure>
+<p>显示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>说明：<br>CONTAINER ID和NAMES都可以生效</p>
+<h4 id="停止容器"><a href="#停止容器" class="headerlink" title="停止容器"></a>停止容器</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker stop 4767f1d1c05b</span></span><br></pre></td></tr></table></figure>
+<p>再次用docker ps查看时发现已经停止了</p>
+<h1 id="docker容器"><a href="#docker容器" class="headerlink" title="docker容器"></a>docker容器</h1><h3 id="运行一个web应用"><a href="#运行一个web应用" class="headerlink" title="运行一个web应用"></a>运行一个web应用</h3><h4 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker pull training/webapp</span></span><br></pre></td></tr></table></figure>
+<h4 id="启动web应用"><a href="#启动web应用" class="headerlink" title="启动web应用"></a>启动web应用</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -d -P training/webapp python app.py</span></span><br></pre></td></tr></table></figure>
+<p>参数说明:</p>
+<ul>
+<li><p>-d:让容器在后台运行。</p>
+</li>
+<li><p>-P:将容器内部使用的网络端口映射到我们使用的主机上。</p>
+</li>
+</ul>
+<h4 id="查看应用"><a href="#查看应用" class="headerlink" title="查看应用"></a>查看应用</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#docker ps</span></span><br></pre></td></tr></table></figure>
+<p>显示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                     NAMES</span><br><span class="line">e8052c72934f        training/webapp     <span class="string">"python app.py"</span>     8 seconds ago       Up 6 seconds        0.0.0.0:32768-&gt;5000/tcp   fervent_hoover</span><br></pre></td></tr></table></figure>
+<p>PORTS列的0.0.0.0:32768-&gt;5000/tcp表示docker开放了5000端口映射到主机32768端口<br><br>通过 <a><a href="http://localhost:32768" target="_blank" rel="noopener">http://localhost:32768</a></a> 即可打开页面</p>
+<h4 id="设置端口"><a href="#设置端口" class="headerlink" title="设置端口"></a>设置端口</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker run -d -p 5000:5000 training/webapp python app.py</span></span><br></pre></td></tr></table></figure>
+<p>则可以吧docker的5000端口映射到主机的5000端口</p>
+<h4 id="查看端口映射"><a href="#查看端口映射" class="headerlink" title="查看端口映射"></a>查看端口映射</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker port 9602135d4352</span></span><br><span class="line">``` </span><br><span class="line">则显示：</span><br><span class="line">``` bash</span><br><span class="line">5000/tcp -&gt; 0.0.0.0:5000</span><br></pre></td></tr></table></figure>
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker logs -f 9602135d4352</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>-f: 让 docker logs 像使用 tail -f 一样来输出容器内部的标准输出。</li>
+</ul>
+<h4 id="移除容器"><a href="#移除容器" class="headerlink" title="移除容器"></a>移除容器</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker rm 9602135d4352</span></span><br></pre></td></tr></table></figure>
+<p>删除容器时，容器必须是停止状态</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <footer>
+        <a href="https://www.wqp0010.top">
+            <img src="/img/avatar.jpg" alt="wuqiupeng">
+            wuqiupeng
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/&title=《docker命令 (一)》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/&title=《docker命令 (一)》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/17/docker命令 (一)/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker命令 (一)》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/12/18/docker命令（二）/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">docker命令 (二)</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/11/22/JVM调优/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">JVM调优</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'false' == 'true',
+            verify: 'false' == 'true',
+            appId: "mVF5KCUIVcjCDpIqP4dcKWXw-gzGzoHsz",
+            appKey: "JWj2x2gTJhQ82wlAVNAB3rkI",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>wuqiupeng &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/&title=《docker命令 (一)》 — JAVA码农随笔&pic=https://www.wqp0010.top/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/&title=《docker命令 (一)》 — JAVA码农随笔&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://www.wqp0010.top/2018/12/17/docker命令 (一)/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker命令 (一)》 — JAVA码农随笔&url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/&via=https://www.wqp0010.top" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://www.wqp0010.top/2018/12/17/docker命令 (一)/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACK0lEQVR42u3azY6DMAxF4b7/SzPSrGakAufaaSWck1WFKPjrIvVPXi+8jt9Frvy9fn0PecLiJUOGjMcyjsvVD/EsrLPnX18/pcqQIWMDBn9NLaCzO/nnm5hlyJAhAwTEN0qeGsqQIUNGh5EWtPynkSFDhoxOEctTxk577uO1uAwZMh7ISAcD3/z8wfmGDBkyHsI4wkWewN/IBww3UcmQIWM0ozZ65MEtaPeDd8mQIWM2gzTR+PELXu6uGoX++9+QIUPGBox0DNCBpSPMmyfIkCFjA0Zn0Nhp1teK5DexyZAhYzNGWkbyIMhoM70/PqMhQ4aMhzNq4wGS9nFk8QCZDBkyRjM6jf7ancE2ioteGTJkzGaQ4NJmWdAma48wZciQsQ8jLWhrzTWe5JEh6JsNV4YMGUMZ/SQvLV/Tn4mnpDJkyJjNSDfB2gCytq0HxzVkyJCxASP+WtjiT/t/aQwyZMiYzUgx5DVrvxts9DJkyBjKSA9YkCZ+/3AGb8DJkCFjNqOWrvHBQC0RjBNKGTJkbMOobb7kSnqcgmBQo02GDBkjGJ1NcBWmtn3LkCFjH8YRrjQRTFtpxaMbMmTIGM1IU7TOiJE37/qHPGTIkDGPQTbZ66SQ/0KrBgY3M1gZMmQMZaSb4Kq0Mv0HCKpwGTJkbMlIC9F02NAajsqQIUMGOKpVO+a1eDwgQ4aM0QweCmmNxSUoLqplyJCxJyMtHckGnY45OwmlDBkyRjN+ACT+o4nIb6EYAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1278014607&web_id=1278014607')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
